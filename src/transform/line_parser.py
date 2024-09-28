@@ -53,7 +53,7 @@ class SucursalesLine(ComerciosLine):
 
 
 class LineParser(ABC):
-    @staticmethod
+    @abstractmethod
     def parse(line: str) -> Optional[str]:
         raise NotImplementedError
 

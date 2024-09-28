@@ -22,6 +22,9 @@ def apply_transformations(config: dict, base_path: str):
         files: list[str] = filter_by_keyword(key, file_paths_list)
         CsvTransformer.transform(files, value["parser"], Dir.path_(base_path, value["filename"]))
 
+def clean_directories():
+    Dir.delete_directory(paths["extracted"])
+    Dir.delete_directory(paths["decompressed"])
 
 if __name__ == "__main__":
     create_directories()
@@ -31,3 +34,4 @@ if __name__ == "__main__":
         decompressed_path=paths["decompressed"]
         )
     apply_transformations(transform_config, paths["combined"])
+    clean_directories()

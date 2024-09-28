@@ -54,3 +54,9 @@ class Directory:
             counter += 1
 
         return full_new_filename
+    
+    @staticmethod
+    def delete_directory(directory: str):
+        import shutil
+        if os.path.exists(directory):
+            shutil.rmtree(directory)
