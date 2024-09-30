@@ -1,52 +1,52 @@
 #!/bin/bash
 
-# Define el directorio donde están las carpetas resultantes de la última descompresión
+# Define the directory where the folders resulting from the last decompression are located
 result_dir="../../../resources/raw/decompressed"
 
-# Define los archivos CSV de salida
+# Define the output CSV files
 output_comercio="../../../resources/raw/decompressed/comercio.csv"
 output_productos="../../../resources/raw/decompressed/productos.csv"
 output_sucursales="../../../resources/raw/decompressed/sucursales.csv"
 
-# Elimina los archivos de salida si ya existen
+# Remove output files if they already exist
 rm -f "$output_comercio" "$output_productos" "$output_sucursales"
 
-# Itera sobre cada carpeta en el directorio de resultados
+# Iterate over each folder in the results directory
 for dir in "$result_dir"/*; do
     if [ -d "$dir" ]; then
         echo "Processing directory: $dir"
         
-        # Procesar comercio.csv
+        # Process comercio.csv
         if [ -f "$dir/comercio.csv" ]; then
             echo "  Adding comercio.csv from $dir"
-            # Asegurarse de que el archivo termine con una nueva línea
-            sed -i '$a\' "$dir/comercio.csv"  # Añade una nueva línea si no hay
+            # Ensure the file ends with a new line
+            sed -i '$a\' "$dir/comercio.csv"  # Add a new line if there isn't one
             if [ ! -s "$output_comercio" ]; then
-                head -n 1 "$dir/comercio.csv" > "$output_comercio"  # Añadir cabecera
+                head -n 1 "$dir/comercio.csv" > "$output_comercio"  # Add header
             fi
-            tail -n +2 "$dir/comercio.csv" >> "$output_comercio"  # Añadir contenido sin cabecera
+            tail -n +2 "$dir/comercio.csv" >> "$output_comercio"  # Add content without header
         fi
         
-        # Procesar productos.csv
+        # Process productos.csv
         if [ -f "$dir/productos.csv" ]; then
             echo "  Adding productos.csv from $dir"
-            # Asegurarse de que el archivo termine con una nueva línea
-            sed -i '$a\' "$dir/productos.csv"  # Añade una nueva línea si no hay
+            # Ensure the file ends with a new line
+            sed -i '$a\' "$dir/productos.csv"  # Add a new line if there isn't one
             if [ ! -s "$output_productos" ]; then
-                head -n 1 "$dir/productos.csv" > "$output_productos"  # Añadir cabecera
+                head -n 1 "$dir/productos.csv" > "$output_productos"  # Add header
             fi
-            tail -n +2 "$dir/productos.csv" >> "$output_productos"  # Añadir contenido sin cabecera
+            tail -n +2 "$dir/productos.csv" >> "$output_productos"  # Add content without header
         fi
         
-        # Procesar sucursales.csv
+        # Process sucursales.csv
         if [ -f "$dir/sucursales.csv" ]; then
             echo "  Adding sucursales.csv from $dir"
-            # Asegurarse de que el archivo termine con una nueva línea
-            sed -i '$a\' "$dir/sucursales.csv"  # Añade una nueva línea si no hay
+            # Ensure the file ends with a new line
+            sed -i '$a\' "$dir/sucursales.csv"  # Add a new line if there isn't one
             if [ ! -s "$output_sucursales" ]; then
-                head -n 1 "$dir/sucursales.csv" > "$output_sucursales"  # Añadir cabecera
+                head -n 1 "$dir/sucursales.csv" > "$output_sucursales"  # Add header
             fi
-            tail -n +2 "$dir/sucursales.csv" >> "$output_sucursales"  # Añadir contenido sin cabecera
+            tail -n +2 "$dir/sucursales.csv" >> "$output_sucursales"  # Add content without header
         fi
     fi
 done

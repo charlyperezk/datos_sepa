@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Get the current directory
-current_dir=$(pwd)
 
 # Define the output directory where the final results will be stored
 output_dir="../../../resources/raw/decompressed"
