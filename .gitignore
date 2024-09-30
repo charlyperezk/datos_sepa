@@ -1,5 +1,7 @@
 *.csv
 venv/
 *.zip
-*ipynb
+*.ipynb
 reader.py
+output/
+notebooks/

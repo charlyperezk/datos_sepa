@@ -1,36 +1,30 @@
 from utils.directory import Directory as Dir
 from utils.zip_files import ZipFile
 from utils.regex import filter_by_keyword
-from transform.combiner import CsvTransformer
-from config import transform_config, create_directories, paths
+from config import paths
 
 
-def sepa_decompress(gross_path: str, extracted_path: str, decompressed_path: str):
-    zip_file = ZipFile(Dir.path_(gross_path, "sepa_jueves.zip"))
+def sepa_decompress(gross_path: str, extracted_path: str, decompressed_path: str, zip_file_name: str):
+    zip_file = ZipFile(Dir.path_(gross_path, zip_file_name))
     zip_file.decompress(extracted_path)
     sepafile_extracted: list[str] = Dir.files_in_directory(extracted_path)
     list(map(lambda file: ZipFile(Dir.path_(extracted_path, file)).decompress(decompressed_path), sepafile_extracted))
 
-def apply_transformations(config: dict, base_path: str):
-    file_list: list[str] = Dir.files_in_directory(paths["decompressed"])
-    file_paths_list: list[str] = list(map(lambda file: Dir.path_(paths["decompressed"], file), file_list))
-
-    for key, value in config.items():
-        print("Applying transformation: ", value["filename"])
-        files: list[str] = filter_by_keyword(key, file_paths_list)
-        CsvTransformer.transform(files, value["parser"], Dir.path_(base_path, value["filename"]))
-
-def temporary_directories_removal():
-    Dir.delete_directory(paths["extracted"])
-    Dir.delete_directory(paths["decompressed"])
-
 
 if __name__ == "__main__":
-    create_directories()
-    sepa_decompress(
-        gross_path=paths["gross"],
-        extracted_path=paths["extracted"],
-        decompressed_path=paths["decompressed"]
-        )
-    apply_transformations(transform_config, paths["combined"])
-    temporary_directories_removal()
+    # sepa_decompress(
+    #     gross_path=paths["gross"],
+    #     extracted_path=paths["extracted"],
+    #     decompressed_path=paths["decompressed"],
+    #     zip_file_name="sepa_jueves.zip"
+    #     )
+
+    from etl import SepaETL, Configs
+
+    file_list: list[str] = Dir.files_in_directory(paths["decompressed"])
+    file_paths_list: list[str] = list(map(lambda file: Dir.path_(paths["decompressed"], file), file_list))    
+    files: list[str] = filter_by_keyword("comercio", file_paths_list) # Path list
+
+
+    lines = SepaETL.apply_transformations(config=Configs.ComerciosConfig, paths=files, acc=set())
+    print(len(lines))
