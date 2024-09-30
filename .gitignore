@@ -6,3 +6,4 @@ reader.py
 output/
 notebooks/
 .vscode/
+logs/
