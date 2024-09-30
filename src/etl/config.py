@@ -1,15 +1,10 @@
+from config.project_config import project_dirs
 from typing import Callable
-from etl.line import Line, EmptyLine
+from etl.line import Line
 
-
-# def create_directories():
-#     list(map(lambda path: os.makedirs(path, exist_ok=True), paths.values()))
-
-# def temporary_directories_removal():
-#     Dir.delete_directory(paths["extracted"])
-#     Dir.delete_directory(paths["decompressed"])
 
 class Config:
+    encoding = "utf-8"
     source_file: str
     target_file: str
     transformation_functions: set[Callable[[str], str]]
@@ -37,10 +32,10 @@ class Config:
 
 
 class ComerciosConfig(Config):
-    source_file = "comercio.csv"
-    target_file = "transformed/comercio.csv"
+    source_file = project_dirs.raw_data_dir / "decompressed" / "comercio.csv"
+    target_file = project_dirs.processed_data_dir / "comercio.csv"
     transformation_functions = [
-        lambda x: x.upper(),
+        lambda x: x.upper()
     ]
     filter_functions = [
         lambda x: x.count("|") == 7,
@@ -49,8 +44,8 @@ class ComerciosConfig(Config):
     
 
 class SucursalesConfig(Config):
-    source_file = "sucursales.csv"
-    target_file = "transformed/sucursales.csv"
+    source_file = project_dirs.raw_data_dir / "decompressed" / "sucursales.csv"
+    target_file = project_dirs.processed_data_dir / "sucursales.csv"
     transformation_functions = [
         lambda x: x.upper(),
     ]
@@ -61,8 +56,8 @@ class SucursalesConfig(Config):
 
 
 class ProductosConfig(Config):
-    source_file = "productos.csv"
-    target_file = "transformed/productos.csv"
+    source_file = project_dirs.raw_data_dir / "decompressed" / "productos.csv"
+    target_file = project_dirs.processed_data_dir / "productos.csv"
     transformation_functions = [
         lambda x: x.upper(),
     ]
