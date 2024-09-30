@@ -5,3 +5,4 @@ venv/
 reader.py
 output/
 notebooks/
+.vscode/
