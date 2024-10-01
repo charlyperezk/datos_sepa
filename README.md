@@ -53,7 +53,8 @@ for analysis, in this case, CSV files.
 1. Clone the repository.
 2. Install the dependencies.
 3. Download the ZIP file from the government website and place it in the `resources/raw/compressed` folder.
-4. Run the main script: `python main.py`.
+4. Run the bash scripts: `bash decompress_process.sh` and `bash unify.sh`.
+5. Run the main script: `python main.py`.
 
 ## Implementation Details
 
