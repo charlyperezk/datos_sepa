@@ -46,7 +46,7 @@ for analysis, in this case, CSV files.
 # Prerequisites:
 
 - Python 3.7+
-- Dependencies listed in `requirements.txt` (add `requirements.txt` file to the project)
+- Dependencies will be listed in `requirements.txt` (There is no dependencies yet)
 
 # Instructions:
 
