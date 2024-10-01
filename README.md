@@ -39,6 +39,17 @@ for analysis, in this case, CSV files.
         ├── utils
         │   └── decorators.py
         └── main.py
+    └── logs
+        └── app.log
+    └── resources
+        └── raw
+            └── compressed
+                └── .zip
+            └── decompressed
+                └── .csv
+        └── processed
+            └── .csv
+    └──venv/
 ```
 
 ## Usage
@@ -52,9 +63,10 @@ for analysis, in this case, CSV files.
 
 1. Clone the repository.
 2. Install the dependencies.
-3. Download the ZIP file from the government website and place it in the `resources/raw/compressed` folder.
-4. Run the bash scripts: `bash decompress_process.sh` and `bash unify.sh`.
-5. Run the main script: `python main.py`.
+3. Create the project structure executing `python src/main.py --create-dirs`
+4. Download the ZIP file from the government website and place it in the `resources/raw/compressed` folder.
+5. Run the bash scripts: `bash decompress_process.sh` and `bash unify.sh`.
+6. Run the main script: `python src/main.py` or `python src/main.py --configs comercio` or `python src/main.py --configs sucursales` or `python src/main.py --configs productos`.
 
 ## Implementation Details
 
