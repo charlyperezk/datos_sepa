@@ -77,3 +77,29 @@ Contributions are welcome. Please fork the repository and submit a pull request 
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
+
+# Frequently Asked Questions
+
+## About the SEPA Data Processing Project
+
+1. **How are the paths to directories and files managed within the project?**
+   The `ProjectDirs` class in `project_config.py` defines and creates paths to important directories such as `resources`, `raw_data`, `processed_data`, `logs`, etc. These paths are used throughout the project to access necessary files and directories.
+
+2. **What is the purpose of the bash scripts `decompress_process.sh` and `unify.sh`?**
+   - `decompress_process.sh`: Decompresses the ZIP files containing the input data. First, it decompresses the initial ZIP file and then any nested ZIP files, creating an organized directory structure.
+   - `unify.sh`: Combines individual CSV files (`comercio.csv`, `productos.csv`, `sucursales.csv`) found in the decompressed directories into a single CSV file per type.
+
+3. **How is the ETL process configured for different types of data (stores, branches, products)?**
+   The `ComerciosConfig`, `SucursalesConfig`, and `ProductosConfig` classes in `etl/config.py` define specific configurations for each type of data. This includes the source file path, destination file path, transformation functions, and filter functions.
+
+4. **How is data extraction performed in the project?**
+   The `SepaExtract` class in `etl/extract.py` is responsible for reading data from CSV files. It uses UTF-8 encoding and returns a list of `Line` objects, which represent each line of the file.
+
+5. **What types of transformations can be applied to the data?**
+   The `Transform` class in `etl/transform.py` provides methods to apply transformations to the data, such as converting to uppercase (`upper()`) using lambda functions.
+
+6. **How is data filtered during the ETL process?**
+   The filter functions, defined as lambda functions in the configuration classes, are used to determine which lines of data should be processed. For example, you can filter by the number of fields or whether a line is empty.
+
+7. **How are important actions and events logged during project execution?**
+   The project uses Python's `logging` module to log debugging information to the `app.log` file inside the `logs` directory. This helps with identifying and resolving issues during the ETL process execution.
