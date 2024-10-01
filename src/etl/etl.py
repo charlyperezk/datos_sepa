@@ -30,7 +30,7 @@ class SepaETL(ETL):
         return SepaETL.apply_transformations(paths[1::], config, Transform.combine([acc, lines]))
     
     @staticmethod
-    def load(lines: list[Line], config: Config):
+    def load(config: Config, lines: list[Line]):
         logging.debug(f"Loading {len(lines)} lines to {config.target_file}")
         with open(config.target_file, "w", encoding=config.encoding) as file:
             for line in lines:

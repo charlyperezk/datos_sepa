@@ -7,6 +7,6 @@ def time_execution(func):
         start_time = time.time()
         result = func(*args, **kwargs)
         end_time = time.time()
-        logging.debug(f"Function {func.__name__} took {end_time - start_time} seconds to execute")
+        logging.debug(f"Function {func.__name__} took {round(end_time - start_time, 3)} seconds to execute")
         return result
     return wrapper
