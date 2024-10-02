@@ -9,13 +9,18 @@ class ETL:
     @staticmethod
     @time_execution
     def process(config: Config, extractor: Extract, transformer: Transform) -> list[Line]:
-        logging.debug(f"Processing {config.source_file}")
-        lines: list[Line] = extractor.extract(config.source_file, config.instantiate_line)
-        logging.debug(f"Extracted {len(lines)} lines")
-        lines_filtered: list[Line] = transformer.filter(lines, config.get_filter_functions())
-        lines_transformed: list[Line] = transformer.transform(lines_filtered, config.get_transformation_functions())
-        return lines_transformed
-    
+        try:
+            logging.debug(f"Processing {config.source_file}")
+            lines: list[Line] = extractor.extract(config.source_file, config.instantiate_line)
+            logging.debug(f"Extracted {len(lines)} lines")
+            lines_filtered: list[Line] = transformer.filter(lines, config.get_filter_functions())
+            lines_transformed: list[Line] = transformer.transform(lines_filtered, config.get_transformation_functions())
+            return lines_transformed
+        
+        except Exception as e:
+            logging.error(f"Error processing {config.source_file}: {e}")
+            raise e
+        
     
 class SepaETL(ETL):
     @staticmethod

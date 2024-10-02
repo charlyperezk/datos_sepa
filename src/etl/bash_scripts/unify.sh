@@ -25,6 +25,8 @@ for dir in "$result_dir"/*; do
                 head -n 1 "$dir/comercio.csv" > "$output_comercio"  # Add header
             fi
             tail -n +2 "$dir/comercio.csv" >> "$output_comercio"  # Add content without header
+            # Remove the original comercio.csv file
+            rm "$dir/comercio.csv"
         fi
         
         # Process productos.csv
@@ -36,6 +38,8 @@ for dir in "$result_dir"/*; do
                 head -n 1 "$dir/productos.csv" > "$output_productos"  # Add header
             fi
             tail -n +2 "$dir/productos.csv" >> "$output_productos"  # Add content without header
+            # Remove the original productos.csv file
+            rm "$dir/productos.csv"
         fi
         
         # Process sucursales.csv
@@ -47,7 +51,12 @@ for dir in "$result_dir"/*; do
                 head -n 1 "$dir/sucursales.csv" > "$output_sucursales"  # Add header
             fi
             tail -n +2 "$dir/sucursales.csv" >> "$output_sucursales"  # Add content without header
+            # Remove the original sucursales.csv file
+            rm "$dir/sucursales.csv"
         fi
+        
+        # Remove the directory if it is empty
+        rmdir "$dir" 2>/dev/null
     fi
 done
 
@@ -55,4 +64,3 @@ echo "All CSV files have been merged into their respective files:"
 echo "- Comercio: $output_comercio"
 echo "- Productos: $output_productos"
 echo "- Sucursales: $output_sucursales"
-

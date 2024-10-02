@@ -1,5 +1,6 @@
 from pathlib import Path
 import logging
+import os
 
 
 class ProjectDirs:
@@ -23,16 +24,15 @@ class ProjectDirs:
         for directory in [self.resources_dir, self.raw_data_dir, self.compressed_data_dir, self.decompressed_data_dir, self.processed_data_dir, self.logs_dir, self.config_dir]:
             if not directory.exists():
                 directory.mkdir(parents=True)
-                print(f"Created directory: {directory}")
+                logging.info(f"Created directory: {directory}")
             else:
-                # print(f"Directory already exists: {directory}")
-                pass
+                logging.info(f"Directory already exists: {directory}")
 
     def clear_logs(self):
         """Clear the logs directory."""
         for log_file in self.logs_dir.glob('*'):
             log_file.unlink()  # Delete each file
-        print(f"Cleared all logs from: {self.logs_dir}")
+        logging.info(f"Cleared all logs from: {self.logs_dir}")
 
     def list_files_in_output(self):
         """List all files in the output directory."""
@@ -43,16 +43,51 @@ class ProjectDirs:
         file = Path(file_path)
         if file.exists():
             file.rename(self.output_dir / file.name)
-            print(f"Moved {file.name} to {self.output_dir}")
+            logging.info(f"Moved {file.name} to {self.output_dir}")
         else:
-            print(f"File {file} does not exist")
+            logging.info(f"File {file} does not exist")
 
     def validate_dirs(self):
         """Ensure all necessary directories exist."""
         missing_dirs = [d for d in [self.data_dir, self.logs_dir, self.config_dir, self.output_dir] if not d.exists()]
         if missing_dirs:
-            print(f"Missing directories: {missing_dirs}")
+            logging.info(f"Missing directories: {missing_dirs}")
         else:
-            print("All directories are present.")
+            logging.info("All directories are present.")
+
+    def file_path_is_valid(self, file_path: str) -> bool:
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"File not found: {file_path}")
+        if not os.path.isfile(file_path):
+            raise IsADirectoryError(f"File is a directory: {file_path}")
+        if not os.access(file_path, os.R_OK):
+            raise PermissionError(f"File is not readable: {file_path}")
+    
+    def clean_raw_compressed_data(self):
+        for file in self.compressed_data_dir.iterdir():
+            if file.is_file():
+                file.unlink()
+                logging.info(f"Deleted file: {file}")
+            else:
+                logging.info(f"Skipping directory: {file}")
+
+    def clean_raw_decompressed_data(self):
+        for file in self.decompressed_data_dir.iterdir():
+            if file.is_file():
+                file.unlink()
+                logging.info(f"Deleted file: {file}")
+            else:
+                logging.info(f"Skipping directory: {file}")
 
 project_dirs = ProjectDirs(Path.cwd())
+
+
+class ProjectConfigs:
+    @staticmethod
+    def setup_logging():
+        logging.getLogger().handlers.clear()
+        logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[logging.StreamHandler()]
+    )

@@ -29,7 +29,7 @@ class Config:
     @classmethod
     def get_filter_functions(cls) -> set[Callable[[str], bool]]:
         return cls.filter_functions
-
+    
 
 class ComerciosConfig(Config):
     source_file = project_dirs.raw_data_dir / "decompressed" / "comercio.csv"
@@ -65,3 +65,12 @@ class ProductosConfig(Config):
         lambda x: x.count("|") == 16,
         lambda x: x.strip() != "",
     ]
+
+class ETLConfig:
+    @staticmethod
+    def get_configs():
+        return {
+        'comercio': ComerciosConfig,
+        'productos': ProductosConfig,
+        'sucursales': SucursalesConfig
+    }
