@@ -10,9 +10,9 @@ class ETL:
     @time_execution
     def process(config: Config, extractor: Extract, transformer: Transform) -> list[Line]:
         try:
-            logging.debug(f"Processing {config.source_file}")
+            logging.info(f"Processing {config.source_file}")
             lines: list[Line] = extractor.extract(config.source_file, config.instantiate_line)
-            logging.debug(f"Extracted {len(lines)} lines")
+            logging.info(f"Extracted {len(lines)} lines")
             lines_filtered: list[Line] = transformer.filter(lines, config.get_filter_functions())
             lines_transformed: list[Line] = transformer.transform(lines_filtered, config.get_transformation_functions())
             return lines_transformed
