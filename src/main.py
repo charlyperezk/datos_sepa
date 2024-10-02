@@ -1,7 +1,7 @@
 from config.execution_config import CLI
 from config.project_config import ProjectConfigs
-ProjectConfigs.setup_logging()
 import logging
+ProjectConfigs.setup_logging(console_level=logging.INFO, file_level=logging.INFO)
 
 
 if __name__ == "__main__":

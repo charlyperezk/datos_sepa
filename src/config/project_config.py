@@ -84,10 +84,20 @@ project_dirs = ProjectDirs(Path.cwd())
 
 class ProjectConfigs:
     @staticmethod
-    def setup_logging():
+    def setup_logging(console_level=logging.DEBUG, file_level=logging.DEBUG):
         logging.getLogger().handlers.clear()
-        logging.basicConfig(
-        level=logging.DEBUG,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        handlers=[logging.StreamHandler()]
-    )
+        
+        file_handler = logging.FileHandler(project_dirs.logs_dir / 'app.log')
+        file_handler.setLevel(file_level)
+
+        stream_handler = logging.StreamHandler()
+        stream_handler.setLevel(console_level)
+
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        file_handler.setFormatter(formatter)
+        stream_handler.setFormatter(formatter)
+
+        logger = logging.getLogger()
+        logger.setLevel(file_level)
+        logger.addHandler(file_handler)
+        logger.addHandler(stream_handler)
