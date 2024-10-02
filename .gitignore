@@ -9,3 +9,6 @@ notebooks/
 logs/
 project_description.txt
 test/
+others/
+.gitignore
+__pycache__/

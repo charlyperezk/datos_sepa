@@ -1,6 +1,6 @@
+import logging
 from config.execution_config import CLI
 from config.project_config import ProjectConfigs
-import logging
 ProjectConfigs.setup_logging(console_level=logging.INFO, file_level=logging.INFO)
 
 
