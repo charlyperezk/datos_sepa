@@ -10,5 +10,5 @@ logs/
 project_description.txt
 test/
 others/
-.gitignore
-__pycache__/
+# .gitignore
+# __pycache__/
